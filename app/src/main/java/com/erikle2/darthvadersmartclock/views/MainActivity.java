@@ -1,9 +1,12 @@
 package com.erikle2.darthvadersmartclock.views;
 
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.CompoundButton;
+import android.widget.ImageView;
 import android.widget.Switch;
 import android.widget.Toast;
 
@@ -20,6 +23,8 @@ public class MainActivity extends AppCompatActivity implements ITalkToMainActivi
 
     @Bind(R.id.switchLight)
     Switch lightSwitch;
+    @Bind(R.id.ivDarthVader)
+    ImageView vaderHead;
     private MainPresenter presenter;
 
 
@@ -34,10 +39,10 @@ public class MainActivity extends AppCompatActivity implements ITalkToMainActivi
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if (isChecked) {
-                    Log.d("Switch", " ON");
+
                     presenter.lightsOn();
                 } else {
-                    Log.d("Switch", " OFF");
+
                     presenter.lightOff();
                 }
             }
@@ -47,21 +52,32 @@ public class MainActivity extends AppCompatActivity implements ITalkToMainActivi
 
 
     }
-
-
     @Override
     public void lightOn() {
-        Toast.makeText(this, "Light is ON", Toast.LENGTH_SHORT).show();
+
+        Log.d("Switch", " ON");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            vaderHead.setImageDrawable(getResources().getDrawable(R.drawable.dv2));
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            vaderHead.setImageDrawable(getResources().getDrawable(R.drawable.dv2,null));
+        }
     }
 
     @Override
     public void lightOff() {
-        Toast.makeText(this, "Light is OFF", Toast.LENGTH_LONG).show();
+        Log.d("Switch", " OFF");
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
+            vaderHead.setImageDrawable(getResources().getDrawable(R.drawable.dv));
+        }
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            vaderHead.setImageDrawable(getResources().getDrawable(R.drawable.dv, null));
+        }
 
     }
 
     @Override
-    public void setTime() {
+    public void setTime(String time) {
 
     }
 }

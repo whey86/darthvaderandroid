@@ -10,6 +10,8 @@ import java.sql.Time;
 import rx.Observable;
 import rx.Observer;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Action0;
+import rx.functions.Action1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -25,49 +27,60 @@ public class MainPresenter implements ITalkToMainPresenter {
     }
 
     @Override
-    public void setTime() {
-
+    public void setTime(final String time) {
+            mService.getAPI()
+                    .setAlarsetTime(time)
+                    .doOnCompleted(new Action0() {
+                        @Override
+                        public void call() {
+                            mView.setTime(time);
+                        }
+                    });
     }
 
     @Override
-    public void setAlarm() {
+    public void setAlarm(String time) {
 
     }
 
     @Override
     public void lightsOn() {
+        mView.lightOn();
+        mService.getAPI()
+                .lightSwitch("1")
+                .take(1)
+                .subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<TimeData>() {
 
-        Observable<TimeData> light = mService.getAPI().lightSwitch("1");
+                    @Override
+                    public void onCompleted() {
 
-                    light.subscribeOn(Schedulers.newThread())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer() {
+                    }
 
-                        @Override
-                        public void onCompleted() {
-                            mView.lightOn();
-                        }
+                    @Override
+                    public void onError(Throwable e) {
 
-                        @Override
-                        public void onError(Throwable e) {
+                    }
 
-                        }
+                    @Override
+                    public void onNext(TimeData timeData) {
 
-                        @Override
-                        public void onNext(Object o) {
-
-                        }
-                    });
+                    }
+                });
 
     }
 
+
     @Override
     public void lightOff() {
+        mView.lightOff();
         mService.getAPI()
                 .lightSwitch("2")
+                .take(1)
                 .subscribeOn(Schedulers.newThread())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer(){
+                .subscribe(new Observer<TimeData>(){
 
                     @Override
                     public void onCompleted() {
@@ -80,9 +93,10 @@ public class MainPresenter implements ITalkToMainPresenter {
                     }
 
                     @Override
-                    public void onNext(Object o) {
+                    public void onNext(TimeData timeData) {
 
                     }
                 });
+
     }
 }

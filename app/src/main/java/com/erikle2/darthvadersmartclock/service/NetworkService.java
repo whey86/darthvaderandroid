@@ -44,6 +44,14 @@ public class NetworkService {
         Observable<TimeData>
         lightSwitch( @Query("led") String string);
 
+        @GET("/")
+        Observable
+        setAlarm(@Query("alarm") String time);
+
+        @GET("/")
+        Observable
+        setAlarsetTime(@Query("alarm") String time);
+
 
     }
 }

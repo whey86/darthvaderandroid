@@ -6,5 +6,5 @@ package com.erikle2.darthvadersmartclock.views;
 public interface ITalkToMainActivity {
     void lightOn();
     void lightOff();
-    void setTime();
+    void setTime(String time);
 }
