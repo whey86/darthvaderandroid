@@ -19,7 +19,7 @@ import rx.schedulers.Schedulers;
  */
 public class MainPresenter implements ITalkToMainPresenter {
 
-     NetworkService mService;
+    NetworkService mService;
     ITalkToMainActivity mView;
     public MainPresenter(ITalkToMainActivity view, NetworkService service) {
         mView = view;
@@ -28,19 +28,19 @@ public class MainPresenter implements ITalkToMainPresenter {
 
     @Override
     public void setTime(final String time) {
-            mService.getAPI()
-                    .setAlarsetTime(time)
-                    .doOnCompleted(new Action0() {
-                        @Override
-                        public void call() {
-                            mView.setTime(time);
-                        }
-                    });
+
     }
 
     @Override
     public void setAlarm(String time) {
+            mService.getAPI()
+                    .setAlarm(time)
+                    .doOnCompleted(new Action0() {
+                        @Override
+                        public void call() {
 
+                        }
+                    });
     }
 
     @Override
@@ -97,6 +97,11 @@ public class MainPresenter implements ITalkToMainPresenter {
 
                     }
                 });
+
+    }
+
+    @Override
+    public void alarmStatus(Boolean status) {
 
     }
 }

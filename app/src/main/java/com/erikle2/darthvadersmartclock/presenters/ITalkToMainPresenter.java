@@ -8,4 +8,5 @@ public interface ITalkToMainPresenter {
     void setAlarm(String time);
     void lightsOn();
     void lightOff();
+    void alarmStatus(Boolean status);
 }

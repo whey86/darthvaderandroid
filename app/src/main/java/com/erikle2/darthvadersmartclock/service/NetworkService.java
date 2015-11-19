@@ -48,9 +48,7 @@ public class NetworkService {
         Observable
         setAlarm(@Query("alarm") String time);
 
-        @GET("/")
-        Observable
-        setAlarsetTime(@Query("alarm") String time);
+
 
 
     }
